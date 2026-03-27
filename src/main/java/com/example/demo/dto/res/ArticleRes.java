@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @AllArgsConstructor
 @Getter
 @Setter
@@ -15,6 +17,8 @@ public class ArticleRes {
     private String image;
     private Long authorId;
     private Long categoryId;
+    private String categoryName;
+    private Timestamp createdAt;
 
     public static ArticleRes toJson(Article article) {
         return new ArticleRes(
@@ -23,7 +27,10 @@ public class ArticleRes {
                 article.getContent(),
                 article.getImage(),
                 article.getAuthor().getId(),
-                article.getCategory().getId()
+                article.getCategory() != null ? article.getCategory().getId() : null,
+                article.getCategory() != null ? article.getCategory().getName() : "There are no categories",
+                article.getCreatedAt()
+
         );
     }
 }

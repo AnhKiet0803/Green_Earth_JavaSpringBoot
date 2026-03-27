@@ -57,5 +57,13 @@ public class ArticleController {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
     }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<String>> deleteUser(@PathVariable Long id) {
+        try {
+            articleService.delete(id);
+            return ResponseHandler.success("Xoá người dùng thành công","Thành công");
+        } catch (Exception e) {
+            return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
+        }
+    }
 }

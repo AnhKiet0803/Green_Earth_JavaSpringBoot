@@ -16,6 +16,8 @@ public class UserReq {
     @NotBlank(message = "Email is required")
     private String email;
 
+    private String password;
+
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
     private String phone;
 

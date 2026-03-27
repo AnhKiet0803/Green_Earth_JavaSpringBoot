@@ -24,8 +24,6 @@ public class CampaignReq {
 
     private Date endDate;
 
-    @NotNull(message = "Input target volunteers")
-    private Integer targetVolunteers;
 
     @NotNull(message = "Input target amount")
     @DecimalMin(value = "0.00", message = "Target amount cannot be less than 0")

@@ -32,6 +32,7 @@ public class EventService {
             event.setLocation(req.getLocation());
             event.setEventDate(req.getEventDate());
             event.setImage(req.getImage());
+            event.setStatus(req.getStatus());
             event.setCreatedBy(userRepository.findById(req.getCreatedBy()).get());
             return EventRes.toJson(eventRepository.save(event));
         }catch (Exception e){
@@ -47,6 +48,7 @@ public class EventService {
             event.setLocation(req.getLocation());
             event.setEventDate(req.getEventDate());
             event.setImage(req.getImage());
+            event.setStatus(req.getStatus());
             event.setCreatedBy(userRepository.findById(req.getCreatedBy()).get());
             return EventRes.toJson(eventRepository.save(event));
         }catch (Exception e){

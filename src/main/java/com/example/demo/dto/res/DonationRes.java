@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 @Setter
 public class DonationRes {
     private Long id;
-    private Long userId;
-    private Long campaignId;
+    private String donorName;
+    private String campaignName;
     private BigDecimal amount;
     private String message;
     private String paymentMethod;
@@ -22,8 +22,8 @@ public class DonationRes {
     public static DonationRes toJson(Donation donation) {
         return new DonationRes(
                 donation.getId(),
-                donation.getUser().getId(),
-                donation.getCampaign().getId(),
+                donation.getUser() != null ? donation.getUser().getName() : "Anonymous",
+                donation.getCampaign() != null ? donation.getCampaign().getTitle() : "General Donation",
                 donation.getAmount(),
                 donation.getMessage(),
                 donation.getPaymentMethod(),

@@ -23,5 +23,7 @@ public class EventReq {
 
     private String image;
 
+    private String status;
+
     private Long createdBy;
 }

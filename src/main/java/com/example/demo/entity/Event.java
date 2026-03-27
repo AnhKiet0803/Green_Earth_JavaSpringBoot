@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "events")
@@ -31,10 +32,17 @@ public class Event {
     @Column(length = 255)
     private String image;
 
+    @OneToMany(mappedBy = "event")
+    private List<EventParticipant> participants;
+
+    @Column(name = "status")
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "created_by", referencedColumnName = "id")
     private User createdBy;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
+
 }

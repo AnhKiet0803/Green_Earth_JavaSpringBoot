@@ -30,6 +30,6 @@ public class CampaignParticipant {
     private Status status;
 
     public enum Status {
-        REGISTERED, ATTENDED, CANCELLED
+        success, failed
     }
 }

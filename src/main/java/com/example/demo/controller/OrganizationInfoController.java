@@ -30,9 +30,7 @@ public class OrganizationInfoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO<OrganizationInfoRes>> updateOrganizationInfo(
-            @PathVariable Long id,
-            @RequestBody OrganizationInfoReq req) {
+    public ResponseEntity<ResponseDTO<OrganizationInfoRes>> updateOrganizationInfo(@PathVariable Long id, @RequestBody OrganizationInfoReq req) {
         try {
             return ResponseHandler.success(organizationInfoService.update(id, req), "Thành công");
         } catch (Exception e) {

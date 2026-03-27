@@ -9,6 +9,7 @@ import com.example.demo.repository.ArticleCategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class ArticleService {
             article.setCategory(articleCategoryRepository.findById(req.getCategoryId()).get());
             return ArticleRes.toJson(articleRepository.save(article));
         }catch (Exception e){
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -49,9 +50,13 @@ public class ArticleService {
             article.setImage(req.getImage());
             article.setAuthor(userRepository.findById(req.getAuthorId()).get());
             article.setCategory(articleCategoryRepository.findById(req.getCategoryId()).get());
+            article.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             return ArticleRes.toJson(articleRepository.save(article));
         }catch (Exception e){
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
+    }
+    public void delete(Long id) {
+        articleRepository.deleteById(id);
     }
 }

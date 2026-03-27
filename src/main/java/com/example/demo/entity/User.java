@@ -31,7 +31,7 @@ public class User {
     @Column(length = 255)
     private String avatar;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private java.sql.Timestamp createdAt;
 
     public enum Role {

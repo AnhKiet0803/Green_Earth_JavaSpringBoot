@@ -28,12 +28,13 @@ public class UserService {
             User user = new User();
             user.setName(req.getName());
             user.setEmail(req.getEmail());
+            user.setPassword(req.getPassword());
             user.setPhone(req.getPhone());
-            user.setRole(Role.valueOf(req.getRole().toUpperCase()));
+            user.setRole(Role.valueOf(req.getRole().toLowerCase().trim()));
             user.setAvatar(req.getAvatar());
             return UserRes.toJson(userRepository.save(user));
         }catch (Exception e){
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -43,11 +44,15 @@ public class UserService {
             user.setName(req.getName());
             user.setEmail(req.getEmail());
             user.setPhone(req.getPhone());
-            user.setRole(Role.valueOf(req.getRole().toUpperCase()));
+            user.setRole(Role.valueOf(req.getRole().toLowerCase().trim()));
             user.setAvatar(req.getAvatar());
             return UserRes.toJson(userRepository.save(user));
         }catch (Exception e){
-            return null;
+            throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }
