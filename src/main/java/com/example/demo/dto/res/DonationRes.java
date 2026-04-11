@@ -20,14 +20,25 @@ public class DonationRes {
     private String donationDate;
 
     public static DonationRes toJson(Donation donation) {
+        String name = "Anonymous";
+
+        //Nếu có User (đã đăng nhập)
+        if (donation.getUser() != null) {
+            name = donation.getUser().getName();
+        }
+        //Nếu không có User, lấy từ cột donorName (khách vãng lai)
+        else if (donation.getDonorName() != null && !donation.getDonorName().isEmpty()) {
+            name = donation.getDonorName();
+        }
+
         return new DonationRes(
                 donation.getId(),
-                donation.getUser() != null ? donation.getUser().getName() : "Anonymous",
+                name,
                 donation.getCampaign() != null ? donation.getCampaign().getTitle() : "General Donation",
                 donation.getAmount(),
                 donation.getMessage(),
                 donation.getPaymentMethod(),
-                donation.getDonationDate().toString()
+                donation.getDonationDate() != null ? donation.getDonationDate().toString() : ""
         );
     }
 }

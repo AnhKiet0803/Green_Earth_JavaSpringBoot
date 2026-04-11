@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.common.ResponseHandler;
 import com.example.demo.dto.common.ResponseDTO;
+import com.example.demo.dto.req.DonationReq;
 import com.example.demo.dto.res.DonationRes;
 import com.example.demo.enums.StatusCode;
 import com.example.demo.service.DonationService;
@@ -31,6 +32,15 @@ public class DonationController {
     public ResponseEntity<ResponseDTO<DonationRes>> findDonationById(@PathVariable Long id) {
         try {
             return ResponseHandler.success(donationService.findById(id), "Thành công");
+        } catch (Exception e) {
+            return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseDTO<DonationRes>> createDonation(@RequestBody DonationReq req) {
+        try {
+            return ResponseHandler.success(donationService.createDonation(req), "Quyên góp thành công!");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }

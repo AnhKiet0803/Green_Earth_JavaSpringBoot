@@ -20,6 +20,9 @@ public class Donation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "donor_name", length = 100)
+    private String donorName;
+
     @ManyToOne
     @JoinColumn(name = "campaign_id")
     private Campaign campaign;

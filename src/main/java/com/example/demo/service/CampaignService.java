@@ -46,7 +46,9 @@ public class CampaignService {
             if (req.getCreatedBy() == null) {
                 throw new RuntimeException("createdBy must not be null");
             }
-            campaign.setCreatedBy(userRepository.findById(req.getCreatedBy()).orElseThrow(() -> new RuntimeException("User not found")));
+            campaign.setCreatedBy(userRepository.findById(req.getCreatedBy()).orElseThrow(()
+                    -> new RuntimeException("User not found")));
+            campaign.setStatus(Campaign.Status.upcoming);
             campaign.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             Campaign saved = campaignRepository.save(campaign);
             return CampaignRes.toJson(saved, BigDecimal.ZERO);
@@ -59,6 +61,7 @@ public class CampaignService {
         try {
             Campaign campaign = campaignRepository.findById(id).orElseThrow(()
                     -> new RuntimeException("Campaign not found"));
+
             campaign.setTitle(req.getTitle());
             campaign.setDescription(req.getDescription());
             campaign.setLocation(req.getLocation());
@@ -66,6 +69,17 @@ public class CampaignService {
             campaign.setEndDate(req.getEndDate());
             campaign.setTargetAmount(req.getTargetAmount());
             campaign.setImage(req.getImage());
+
+            long now = System.currentTimeMillis();
+            long start = (req.getStartDate() != null) ? req.getStartDate().getTime() : 0;
+            long end = (req.getEndDate() != null) ? req.getEndDate().getTime() : 0;
+            if (start > 0 && now < start) {
+                campaign.setStatus(Campaign.Status.upcoming);
+            } else if (end > 0 && now > end) {
+                campaign.setStatus(Campaign.Status.completed);
+            } else {
+                campaign.setStatus(Campaign.Status.ongoing);
+            }
             Campaign updated = campaignRepository.save(campaign);
             BigDecimal raised = donationRepository.getTotalDonatedByCampaignId(id);
             return CampaignRes.toJson(updated, raised);

@@ -39,6 +39,7 @@ public class Campaign {
     private String image;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('upcoming', 'ongoing', 'completed')")
     private Status status;
 
     @ManyToOne
