@@ -32,6 +32,9 @@ public class Event {
     @Column(length = 255)
     private String image;
 
+    @Column(name = "search_keywords", length = 500)
+    private String searchKeywords;
+
     @OneToMany(mappedBy = "event")
     private List<EventParticipant> participants;
 

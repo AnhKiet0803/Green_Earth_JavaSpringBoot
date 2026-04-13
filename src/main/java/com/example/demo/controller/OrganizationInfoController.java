@@ -22,7 +22,7 @@ public class OrganizationInfoController {
         try {
             OrganizationInfoRes organizationInfo = organizationInfoService.getOrganizationInfo();
             return organizationInfo != null
-                    ? ResponseHandler.success(organizationInfo, "Thành công")
+                    ? ResponseHandler.success(organizationInfo, "Success")
                     : ResponseHandler.error(StatusCode.NOT_FOUND, "Organization info not found");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
@@ -32,7 +32,7 @@ public class OrganizationInfoController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<OrganizationInfoRes>> updateOrganizationInfo(@PathVariable Long id, @RequestBody OrganizationInfoReq req) {
         try {
-            return ResponseHandler.success(organizationInfoService.update(id, req), "Thành công");
+            return ResponseHandler.success(organizationInfoService.update(id, req), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }

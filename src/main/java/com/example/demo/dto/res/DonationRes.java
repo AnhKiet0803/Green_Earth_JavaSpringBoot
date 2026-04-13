@@ -21,16 +21,11 @@ public class DonationRes {
 
     public static DonationRes toJson(Donation donation) {
         String name = "Anonymous";
-
-        //Nếu có User (đã đăng nhập)
         if (donation.getUser() != null) {
             name = donation.getUser().getName();
-        }
-        //Nếu không có User, lấy từ cột donorName (khách vãng lai)
-        else if (donation.getDonorName() != null && !donation.getDonorName().isEmpty()) {
+        } else if (donation.getDonorName() != null && !donation.getDonorName().isEmpty()) {
             name = donation.getDonorName();
         }
-
         return new DonationRes(
                 donation.getId(),
                 name,

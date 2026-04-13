@@ -38,6 +38,10 @@ public class Campaign {
     @Column(length = 255)
     private String image;
 
+    /** Extra search / suggest keywords (comma- or newline-separated) */
+    @Column(name = "search_keywords", length = 500)
+    private String searchKeywords;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "ENUM('upcoming', 'ongoing', 'completed')")
     private Status status;

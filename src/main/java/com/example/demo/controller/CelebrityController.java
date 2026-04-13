@@ -23,7 +23,7 @@ public class CelebrityController {
     @GetMapping()
     public ResponseEntity<ResponseDTO<List<CelebrityRes>>> getAllCelebrities() {
         try {
-            return ResponseHandler.success(celebrityService.getAllCelebrities(), "Thành công");
+            return ResponseHandler.success(celebrityService.getAllCelebrities(), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -32,7 +32,7 @@ public class CelebrityController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<CelebrityRes>> findCelebrityById(@PathVariable Long id) {
         try {
-            return ResponseHandler.success(celebrityService.findById(id), "Thành công");
+            return ResponseHandler.success(celebrityService.findById(id), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -41,7 +41,7 @@ public class CelebrityController {
     @PostMapping()
     public ResponseEntity<ResponseDTO<CelebrityRes>> createCelebrity(@RequestBody CelebrityReq req) {
         try {
-            return ResponseHandler.success(celebrityService.create(req), "Thành công");
+            return ResponseHandler.success(celebrityService.create(req), "Success");
         } catch (ValidationException v) {
             return ResponseHandler.error(StatusCode.VALIDATION_ERROR, v.getMessage());
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class CelebrityController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<CelebrityRes>> updateCelebrity(@PathVariable Long id, @RequestBody CelebrityReq req) {
         try {
-            return ResponseHandler.success(celebrityService.update(id, req), "Thành công");
+            return ResponseHandler.success(celebrityService.update(id, req), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -62,7 +62,7 @@ public class CelebrityController {
     public ResponseEntity<ResponseDTO<String>> deleteCelebrity(@PathVariable Long id) {
         try {
             celebrityService.delete(id);
-            return ResponseHandler.success("Xoá người nổi tiếng thành công", "Thành công");
+            return ResponseHandler.success("Celebrity deleted successfully", "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }

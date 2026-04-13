@@ -1,5 +1,8 @@
 HELP.md
 target/
+
+# Local SMTP / secrets (copy from application-local.properties.example)
+**/application-local.properties
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

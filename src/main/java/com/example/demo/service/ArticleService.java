@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.common.PageResult;
 import com.example.demo.dto.req.ArticleReq;
 import com.example.demo.dto.res.ArticleRes;
 import com.example.demo.entity.Article;
@@ -7,6 +8,9 @@ import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.ArticleCategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -24,6 +28,15 @@ public class ArticleService {
         return articleRepository.findAll().stream().map(ArticleRes::toJson).toList();
     }
 
+    public PageResult<ArticleRes> searchArticles(String q, int page, int size) {
+        Pageable pg = PageRequest.of(page, Math.min(Math.max(size, 1), 100));
+        Page<Article> p = (q == null || q.isBlank())
+                ? articleRepository.findAll(pg)
+                : articleRepository.searchByKeyword(q.trim(), pg);
+        List<ArticleRes> content = p.getContent().stream().map(ArticleRes::toJson).toList();
+        return new PageResult<>(content, p.getTotalElements(), p.getTotalPages(), p.getNumber(), p.getSize());
+    }
+
     public ArticleRes findById(Long id) {
         return ArticleRes.toJson(articleRepository.findById(id).get());
     }
@@ -36,6 +49,7 @@ public class ArticleService {
             article.setImage(req.getImage());
             article.setAuthor(userRepository.findById(req.getAuthorId()).get());
             article.setCategory(articleCategoryRepository.findById(req.getCategoryId()).get());
+            article.setSearchKeywords(req.getSearchKeywords());
             return ArticleRes.toJson(articleRepository.save(article));
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
@@ -50,6 +64,7 @@ public class ArticleService {
             article.setImage(req.getImage());
             article.setAuthor(userRepository.findById(req.getAuthorId()).get());
             article.setCategory(articleCategoryRepository.findById(req.getCategoryId()).get());
+            article.setSearchKeywords(req.getSearchKeywords());
             article.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             return ArticleRes.toJson(articleRepository.save(article));
         }catch (Exception e){

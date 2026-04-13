@@ -6,12 +6,11 @@ import com.example.demo.dto.req.CampaignReq;
 import com.example.demo.dto.res.CampaignRes;
 import com.example.demo.enums.StatusCode;
 import com.example.demo.service.CampaignService;
+import com.example.demo.util.ApiPaging;
 import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/green_earth/campaign")
@@ -21,9 +20,23 @@ public class CampaignController {
     private final CampaignService campaignService;
 
     @GetMapping()
-    public ResponseEntity<ResponseDTO<List<CampaignRes>>> getAllCampaigns() {
+    public ResponseEntity<ResponseDTO<Object>> getAllCampaigns(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size
+    ) {
         try {
-            return ResponseHandler.success(campaignService.getAllCampaigns(), "Thành công");
+            if (ApiPaging.isPagedRequest(q, page, size)) {
+                return ResponseHandler.success(
+                        (Object) campaignService.searchCampaigns(
+                                q != null ? q : "",
+                                ApiPaging.pageOrZero(page),
+                                ApiPaging.sizeBounded(size, 20)
+                        ),
+                        "Success"
+                );
+            }
+            return ResponseHandler.success((Object) campaignService.getAllCampaigns(), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -32,7 +45,7 @@ public class CampaignController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<CampaignRes>> findCampaignById(@PathVariable Long id) {
         try {
-            return ResponseHandler.success(campaignService.findById(id), "Thành công");
+            return ResponseHandler.success(campaignService.findById(id), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -41,7 +54,7 @@ public class CampaignController {
     @PostMapping()
     public ResponseEntity<ResponseDTO<CampaignRes>> createCampaign(@RequestBody CampaignReq req) {
         try {
-            return ResponseHandler.success(campaignService.create(req), "Thành công");
+            return ResponseHandler.success(campaignService.create(req), "Success");
         } catch (ValidationException v) {
             return ResponseHandler.error(StatusCode.VALIDATION_ERROR, v.getMessage());
         } catch (Exception e) {
@@ -52,7 +65,7 @@ public class CampaignController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<CampaignRes>> updateCampaign(@PathVariable Long id, @RequestBody CampaignReq req) {
         try {
-            return ResponseHandler.success(campaignService.update(id, req), "Thành công");
+            return ResponseHandler.success(campaignService.update(id, req), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -62,7 +75,7 @@ public class CampaignController {
     public ResponseEntity<ResponseDTO<String>> deleteCampaign(@PathVariable Long id) {
         try {
             campaignService.delete(id);
-            return ResponseHandler.success("Xoá chiến dịch thành công", "Thành công");
+            return ResponseHandler.success("Campaign deleted successfully", "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }

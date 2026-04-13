@@ -24,6 +24,9 @@ public class Article {
     @Column(length = 255)
     private String image;
 
+    @Column(name = "search_keywords", length = 500)
+    private String searchKeywords;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
