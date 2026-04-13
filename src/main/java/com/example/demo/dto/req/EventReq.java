@@ -25,5 +25,7 @@ public class EventReq {
 
     private String status;
 
+    private String searchKeywords;
+
     private Long createdBy;
 }

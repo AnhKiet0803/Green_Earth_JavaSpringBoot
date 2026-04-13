@@ -20,4 +20,6 @@ public class ArticleReq {
     private Long authorId;
 
     private Long categoryId;
+
+    private String searchKeywords;
 }

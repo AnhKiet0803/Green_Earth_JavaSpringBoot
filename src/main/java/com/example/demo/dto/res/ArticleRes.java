@@ -18,6 +18,7 @@ public class ArticleRes {
     private Long authorId;
     private Long categoryId;
     private String categoryName;
+    private String searchKeywords;
     private Timestamp createdAt;
 
     public static ArticleRes toJson(Article article) {
@@ -29,6 +30,7 @@ public class ArticleRes {
                 article.getAuthor().getId(),
                 article.getCategory() != null ? article.getCategory().getId() : null,
                 article.getCategory() != null ? article.getCategory().getName() : "There are no categories",
+                article.getSearchKeywords(),
                 article.getCreatedAt()
 
         );

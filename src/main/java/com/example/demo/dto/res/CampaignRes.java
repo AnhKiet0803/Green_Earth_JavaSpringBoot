@@ -9,7 +9,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -23,6 +22,7 @@ public class CampaignRes {
     private Date endDate;
     private BigDecimal targetAmount;
     private String image;
+    private String searchKeywords;
     private String status;
     private BigDecimal raisedAmount;
     private Double progressPercentage;
@@ -36,32 +36,25 @@ public class CampaignRes {
         res.setLocation(campaign.getLocation());
         res.setStartDate(campaign.getStartDate());
         res.setEndDate(campaign.getEndDate());
-        res.setTargetAmount(campaign.getTargetAmount() != null ? campaign.getTargetAmount() : BigDecimal.ZERO);
+        res.setTargetAmount(campaign.getTargetAmount());
         res.setImage(campaign.getImage());
+        res.setSearchKeywords(campaign.getSearchKeywords());
+
+        if (campaign.getStatus() != null) {
+            res.setStatus(campaign.getStatus().name().toUpperCase());
+        }
+
         BigDecimal raised = (raisedAmount != null) ? raisedAmount : BigDecimal.ZERO;
         res.setRaisedAmount(raised);
 
-        double percentage = 0.0;
-        if (res.getTargetAmount().compareTo(BigDecimal.ZERO) > 0) {
+        if (campaign.getTargetAmount() != null && campaign.getTargetAmount().compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal progress = raised.multiply(new BigDecimal(100))
-                    .divide(res.getTargetAmount(), 2, RoundingMode.HALF_UP);
-            percentage = progress.doubleValue();
-        }
-        res.setProgressPercentage(percentage);
-
-        long now = System.currentTimeMillis();
-        Long startTime = (campaign.getStartDate() != null) ? campaign.getStartDate().getTime() : null;
-        Long endTime = (campaign.getEndDate() != null) ? campaign.getEndDate().getTime() : null;
-
-        if (percentage >= 100 || (endTime != null && now > endTime)) {
-            res.setStatus("COMPLETED");
-        }
-        else if (startTime != null && now < startTime) {
-            res.setStatus("UPCOMING");
-        }
-        else {
-            res.setStatus("ONGOING");
+                    .divide(campaign.getTargetAmount(), 2, RoundingMode.HALF_UP);
+            res.setProgressPercentage(progress.doubleValue());
+        } else {
+            res.setProgressPercentage(0.0);
         }
         return res;
     }
+
 }

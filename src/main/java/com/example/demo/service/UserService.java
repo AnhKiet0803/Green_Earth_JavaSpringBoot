@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.common.PageResult;
 import com.example.demo.dto.req.UserReq;
 import com.example.demo.dto.res.UserRes;
 import com.example.demo.entity.User;
 import com.example.demo.entity.User.Role;
 import com.example.demo.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +21,15 @@ public class UserService {
 
     public List<UserRes> getAllUsers() {
         return userRepository.findAll().stream().map(UserRes::toJson).toList();
+    }
+
+    public PageResult<UserRes> searchUsers(String q, int page, int size) {
+        Pageable pg = PageRequest.of(page, Math.min(Math.max(size, 1), 100));
+        Page<User> p = (q == null || q.isBlank())
+                ? userRepository.findAll(pg)
+                : userRepository.searchByKeyword(q.trim(), pg);
+        List<UserRes> content = p.getContent().stream().map(UserRes::toJson).toList();
+        return new PageResult<>(content, p.getTotalElements(), p.getTotalPages(), p.getNumber(), p.getSize());
     }
 
     public UserRes findById(Long id) {

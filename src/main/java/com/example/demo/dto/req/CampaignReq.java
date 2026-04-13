@@ -31,5 +31,8 @@ public class CampaignReq {
 
     private String image;
 
+    /** Optional extra search keywords */
+    private String searchKeywords;
+
     private Long createdBy;
 }

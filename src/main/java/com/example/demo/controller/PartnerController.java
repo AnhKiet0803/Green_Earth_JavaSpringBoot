@@ -23,7 +23,7 @@ public class PartnerController {
     @GetMapping()
     public ResponseEntity<ResponseDTO<List<PartnerRes>>> getAllPartners() {
         try {
-            return ResponseHandler.success(partnerService.getAllPartners(), "Thành công");
+            return ResponseHandler.success(partnerService.getAllPartners(), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -32,7 +32,7 @@ public class PartnerController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<PartnerRes>> findPartnerById(@PathVariable Long id) {
         try {
-            return ResponseHandler.success(partnerService.findById(id), "Thành công");
+            return ResponseHandler.success(partnerService.findById(id), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -41,7 +41,7 @@ public class PartnerController {
     @PostMapping()
     public ResponseEntity<ResponseDTO<PartnerRes>> createPartner(@RequestBody PartnerReq req) {
         try {
-            return ResponseHandler.success(partnerService.create(req), "Thành công");
+            return ResponseHandler.success(partnerService.create(req), "Success");
         } catch (ValidationException v) {
             return ResponseHandler.error(StatusCode.VALIDATION_ERROR, v.getMessage());
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class PartnerController {
     @PutMapping("/{id}")
     public ResponseEntity<ResponseDTO<PartnerRes>> updatePartner(@PathVariable Long id, @RequestBody PartnerReq req) {
         try {
-            return ResponseHandler.success(partnerService.update(id, req), "Thành công");
+            return ResponseHandler.success(partnerService.update(id, req), "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }
@@ -62,7 +62,7 @@ public class PartnerController {
     public ResponseEntity<ResponseDTO<String>> deletePartner(@PathVariable Long id) {
         try {
             partnerService.delete(id);
-            return ResponseHandler.success("Xoá đối tác thành công", "Thành công");
+            return ResponseHandler.success("Partner deleted successfully", "Success");
         } catch (Exception e) {
             return ResponseHandler.error(StatusCode.BAD_REQUEST, e.getMessage());
         }

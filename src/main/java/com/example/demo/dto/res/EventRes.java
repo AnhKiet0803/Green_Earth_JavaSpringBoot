@@ -23,6 +23,7 @@ public class EventRes {
     private String image;
     private List<String> participantNames;
     private String status;
+    private String searchKeywords;
 
     public static EventRes toJson(Event event){
         List<String> names = new ArrayList<>();
@@ -40,7 +41,8 @@ public class EventRes {
                 event.getEventDate(),
                 event.getImage(),
                 names,
-                event.getStatus()
+                event.getStatus(),
+                event.getSearchKeywords()
         );
     }
 }

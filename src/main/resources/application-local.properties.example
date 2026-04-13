@@ -1,0 +1,6 @@
+# Đổi tên file này thành: application-local.properties (cùng thư mục resources)
+# rồi điền Gmail + App Password (Google → 2FA → App passwords).
+# File application-local.properties không được commit (đã có trong .gitignore).
+
+spring.mail.username=your.email@gmail.com
+spring.mail.password=your-16-char-app-password
